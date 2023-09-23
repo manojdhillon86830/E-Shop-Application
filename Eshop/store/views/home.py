@@ -2,6 +2,13 @@ from django.shortcuts import render, redirect
 from store.models.product import Product
 from store.models.category import Category
 from django.views import View
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 # Create your views here.
 class Index(View):
     def post(self, request):

@@ -2,8 +2,13 @@ from django.views import View
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.hashers import check_password
 from store.models.customer import Customer
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes
 
+@authentication_classes([JWTAuthentication])
 class Login(View):
+
     return_url = None
     def get(self, request):
         Login.return_url = request.GET.get('return_url')
@@ -28,6 +33,8 @@ class Login(View):
             error_message = 'Email and Password invalid'
         return render(request, 'login.html', {'error': error_message})
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def logout(request):
     request.session.clear()
     return redirect('login')
